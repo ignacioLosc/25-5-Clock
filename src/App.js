@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useCallback } from 'react';
 import './App.css';
 import BreakControls from './components/BreakControls/BreakControls.js'
 import Timer from './components/Timer/Timer.js'
@@ -49,8 +49,8 @@ function App() {
     document.getElementById('beep').pause();
     document.getElementById('beep').load();
   }
-  function switchCountdown() {
-    console.log("switching countdown");
+  const switchCountdown = useCallback(() =>{
+    //console.log("switching countdown");
     document.getElementById('beep').play();
     if (sessionRunning) {
       //console.log("session finished, switching to break");
@@ -68,11 +68,11 @@ function App() {
       setTimerMinutes(Number(sessionLength));
       startTimer();
     }
-  }
+  },[breakLength, sessionLength, sessionRunning]);
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-  async function passTime() {
+  const passTime = useCallback(async () => {
     //console.log("passing time");
     //console.log(timerRunning);
     //console.log("timerSeconds: " + secondsReference.current);
@@ -101,12 +101,12 @@ function App() {
       setTimerRunning(false);
       switchCountdown();
     }
-  }
+  }, [switchCountdown]);
   useEffect(() => {
     if (timerRunningReference.current) {
       passTime();
     }
-  }, [timerRunningReference.current]);
+  }, [timerRunning, passTime]);
   return (
     <div className="App">
       <div className='Website-title'>25 + 5 Clock
