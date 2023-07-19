@@ -2,9 +2,13 @@ import '../../App.css';
 
 function TimerControls({onTimerStart, onTimerReset}) {
     return (
-        <div>TimerControls
-            <button id='start_stop' onClick={onTimerStart}>start_stop</button>
-            <button id='reset' onClick={onTimerReset}>reset</button>
+        <div>
+            <button id='start_stop' onClick={onTimerStart}>
+                <i className="fa fa-play" aria-hidden="true"></i>
+            </button>
+            <button id='reset' onClick={onTimerReset}>
+                <i className="fa fa-refresh" aria-hidden="true"></i>
+            </button>
         </div>
     );
 }

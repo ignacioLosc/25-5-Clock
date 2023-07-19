@@ -18,39 +18,41 @@ function App() {
   minutesReference.current = timerMinutes;
   const timerRunningReference = useRef();
   timerRunningReference.current = timerRunning;
-  function modifySessionLength(event) {
+  function incrementSessionLength(event) {
     if (!timerRunning) {
-      if (event.target.innerHTML === "Increment") {
-        if (sessionLength === "60") {
-          setSessionLength("60");
-        } else {
-          setSessionLength((Number(sessionLength) + 1).toString());
-          setTimerMinutes((Number(sessionLength) + 1));
-        }
+      if (sessionLength === "60") {
+        setSessionLength("60");
       } else {
-        if (sessionLength === "1") {
-          setSessionLength("1");
-        } else {
-          setSessionLength((Number(sessionLength) - 1).toString());
-          setTimerMinutes((Number(sessionLength) - 1));
-        }
+        setSessionLength((Number(sessionLength) + 1).toString());
+        setTimerMinutes((Number(sessionLength) + 1));
       }
     }
   }
-  function modifyBreakLength(event) {
+  function decrementSessionLength(event) {
     if (!timerRunning) {
-      if (event.target.innerHTML === "Increment") {
-        if (breakLength === "60") {
-          setBreakLength("60");
-        } else {
-          setBreakLength((Number(breakLength) + 1).toString());
-        }
+      if (sessionLength === "1") {
+        setSessionLength("1");
       } else {
-        if (breakLength === "1") {
-          setBreakLength("1");
-        } else {
-          setBreakLength((Number(breakLength) - 1).toString());
-        }
+        setSessionLength((Number(sessionLength) - 1).toString());
+        setTimerMinutes((Number(sessionLength) - 1));
+      }
+    }
+  }
+  function incrementBreakLength(event) {
+    if (!timerRunning) {
+      if (breakLength === "60") {
+        setBreakLength("60");
+      } else {
+        setBreakLength((Number(breakLength) + 1).toString());
+      }
+    }
+  }
+  function decrementBreakLength(event) {
+    if (!timerRunning) {
+      if (breakLength === "1") {
+        setBreakLength("1");
+      } else {
+        setBreakLength((Number(breakLength) - 1).toString());
       }
     }
   }
@@ -137,7 +139,7 @@ function App() {
   return (
     <div className="App">
       <div className='Website-title'>25 + 5 Clock
-        <BreakControls breakLength={breakLength} sessionLength={sessionLength} onChangeSession={modifySessionLength} onChangeBreak={modifyBreakLength}/>
+        <BreakControls breakLength={breakLength} sessionLength={sessionLength} onIncrementSession={incrementSessionLength} onDecrementSession={decrementSessionLength} onIncrementBreak={incrementBreakLength} onDecrementBreak={decrementBreakLength}/>
         <Timer minutes={timerMinutes} seconds={timerSeconds} sessionRunning={sessionRunning}/>
         <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer}/>
         <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
