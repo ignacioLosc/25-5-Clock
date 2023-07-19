@@ -1,4 +1,12 @@
-.App {
+.App-session {
+  text-align: center;
+  background-color: #852c31;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+.App-break {
   text-align: center;
   background-color: #1e555c;
   display: flex;
@@ -10,16 +18,58 @@
   font-size: 59px;
   color: white;
   font-family: Georgia;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
 }
 
 .length-time-counter {
   font-size: 29px;
   color: white;
   font-family: Georgia;
+  display: inline-block;
 }
 
 .length-time-descriptor {
   font-size: 39px;
   color: white;
   font-family: Georgia;
+}
+
+.modify-time-left-button {
+  min-width: 5ch;
+  /* min-height: 44px; */
+  min-height: 5ch;
+  /* padding: 0.25em 0.75em; */
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+.modify-time-right-button {
+  min-width: 5ch;
+  /* min-height: 44px; */
+  min-height: 5ch;
+  /* padding: 0.25em 0.75em; */
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.control-time-button {
+  min-width: 8ch;
+  min-height: 8ch;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.break-controls {
+  display: flex;
+  margin-top: 50px;
+  margin-bottom: 50px;
 }

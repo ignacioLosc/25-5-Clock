@@ -107,7 +107,7 @@ function App() {
     }
   }, [timerRunning, passTime]);
   return (
-    <div className="App">
+    <div className={sessionRunning ? "App-session" : "App-break"}>
       <div className="Website-title">
         25 + 5 Clock
         <BreakControls

@@ -51,7 +51,7 @@ function BreakControls({
       <div className="length-time-descriptor" id="break-label">
         Break Length
         <button
-          className="break-decrement"
+          className="modify-time-left-button"
           id="break-decrement"
           onClick={decrementBreakLength}
         >
@@ -61,7 +61,7 @@ function BreakControls({
           {breakLength}
         </div>
         <button
-          className="break-increment"
+          className="modify-time-right-button"
           id="break-increment"
           onClick={incrementBreakLength}
         >
@@ -71,7 +71,7 @@ function BreakControls({
       <div className="length-time-descriptor" id="session-label">
         Session Length
         <button
-          className="session-decrement"
+          className="modify-time-left-button"
           id="session-decrement"
           onClick={decrementSessionLength}
         >
@@ -81,7 +81,7 @@ function BreakControls({
           {sessionLength}
         </div>
         <button
-          className="session-increment"
+          className="modify-time-right-button"
           id="session-increment"
           onClick={incrementSessionLength}
         >
