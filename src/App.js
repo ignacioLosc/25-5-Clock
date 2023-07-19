@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef, useCallback } from 'react';
-import './App.css';
-import BreakControls from './components/BreakControls/BreakControls.js'
-import Timer from './components/Timer/Timer.js'
-import TimerControls from './components/TimerControls/TimerControls.js'
-import { flushSync } from 'react-dom';
+import { useEffect, useState, useRef, useCallback } from "react";
+import "./App.css";
+import BreakControls from "./components/BreakControls/BreakControls.js";
+import Timer from "./components/Timer/Timer.js";
+import TimerControls from "./components/TimerControls/TimerControls.js";
+import { flushSync } from "react-dom";
 
 function App() {
   const [breakLength, setBreakLength] = useState("5");
@@ -46,12 +46,12 @@ function App() {
     setSessionLength("25");
     setBreakLength("5");
     setSessionRunning(true);
-    document.getElementById('beep').pause();
-    document.getElementById('beep').load();
+    document.getElementById("beep").pause();
+    document.getElementById("beep").load();
   }
-  const switchCountdown = useCallback(() =>{
+  const switchCountdown = useCallback(() => {
     //console.log("switching countdown");
-    document.getElementById('beep').play();
+    document.getElementById("beep").play();
     if (sessionRunning) {
       //console.log("session finished, switching to break");
       //console.log("value of timerRunning: " + timerRunning);
@@ -60,7 +60,6 @@ function App() {
       setSessionRunning(false);
       setTimerMinutes(Number(breakLength));
       startTimer();
-      
     } else {
       //console.log("break finished, switching to session");
       //console.log("value of timerRunning: " + timerRunning);
@@ -68,9 +67,9 @@ function App() {
       setTimerMinutes(Number(sessionLength));
       startTimer();
     }
-  },[breakLength, sessionLength, sessionRunning]);
+  }, [breakLength, sessionLength, sessionRunning]);
   function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
   const passTime = useCallback(async () => {
     //console.log("passing time");
@@ -109,11 +108,26 @@ function App() {
   }, [timerRunning, passTime]);
   return (
     <div className="App">
-      <div className='Website-title'>25 + 5 Clock
-        <BreakControls breakLength={breakLength} sessionLength={sessionLength} breakLengthSetter={parentSetBreakLength} sessionLengthSetter={parentSetSessionLength} timerRunning={timerRunning} timerMinutesSetter={parentTimerMinutes}/>
-        <Timer minutes={timerMinutes} seconds={timerSeconds} sessionRunning={sessionRunning}/>
-        <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer}/>
-        <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
+      <div className="Website-title">
+        25 + 5 Clock
+        <BreakControls
+          breakLength={breakLength}
+          sessionLength={sessionLength}
+          breakLengthSetter={parentSetBreakLength}
+          sessionLengthSetter={parentSetSessionLength}
+          timerRunning={timerRunning}
+          timerMinutesSetter={parentTimerMinutes}
+        />
+        <Timer
+          minutes={timerMinutes}
+          seconds={timerSeconds}
+          sessionRunning={sessionRunning}
+        />
+        <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer} />
+        <audio
+          id="beep"
+          src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"
+        ></audio>
       </div>
     </div>
   );
