@@ -11,6 +11,7 @@ function App() {
   const [timerMinutes, setTimerMinutes] = useState(25);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const [sessionRunning, setSessionRunning] = useState(true);
   const secondsReference = useRef();
   secondsReference.current = timerSeconds;
   const minutesReference = useRef();
@@ -54,7 +55,7 @@ function App() {
     }
   }
   async function startTimer() {
-    if (!timerRunning) {
+    if (!timerRunningReference.current) {
       await sleep(1000);
       setTimerRunning(true);
     } else {
@@ -62,7 +63,7 @@ function App() {
     }
   }
   function resetTimer() {
-    console.log("resetting timer");
+    //console.log("resetting timer");
     flushSync(() => {
       setTimerRunning(false);
     });
@@ -71,10 +72,29 @@ function App() {
     setTimerSeconds(0);
     setSessionLength("25");
     setBreakLength("5");
+    setSessionRunning(true);
+    document.getElementById('beep').pause();
+    document.getElementById('beep').load();
   }
-  function beginBreakCountdown() {
-    // sound alarm
-    // begin break countdown
+  function switchCountdown() {
+    console.log("switching countdown");
+    document.getElementById('beep').play();
+    if (sessionRunning) {
+      //console.log("session finished, switching to break");
+      //console.log("value of timerRunning: " + timerRunning);
+      // sound alarm
+      // begin break countdown
+      setSessionRunning(false);
+      setTimerMinutes(breakLength);
+      startTimer();
+      
+    } else {
+      //console.log("break finished, switching to session");
+      //console.log("value of timerRunning: " + timerRunning);
+      setSessionRunning(true);
+      setTimerMinutes(sessionLength);
+      startTimer();
+    }
   }
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -95,30 +115,31 @@ function App() {
         if (minutesReference.current !== 0 && timerRunningReference.current) {
           setTimerMinutes(minutesReference.current - 1);
           //console.log("Setting seconds to 59");
-          setTimerSeconds(secondsReference.current + 59);
+          setTimerSeconds(secondsReference.current + 3);
           await sleep(1000);
           passTime();
         } else {
           setTimerRunning(false);
+          //switchCountdown();
         }
       }
     } else {
       setTimerRunning(false);
-      await sleep(1000);
-      beginBreakCountdown();
+      switchCountdown();
     }
   }
   useEffect(() => {
-    if (timerRunning) {
+    if (timerRunningReference.current) {
       passTime();
     }
-  }, [timerRunning]);
+  }, [timerRunningReference.current]);
   return (
     <div className="App">
       <div className='Website-title'>25 + 5 Clock
         <BreakControls breakLength={breakLength} sessionLength={sessionLength} onChangeSession={modifySessionLength} onChangeBreak={modifyBreakLength}/>
-        <Timer minutes={timerMinutes} seconds={timerSeconds}/>
+        <Timer minutes={timerMinutes} seconds={timerSeconds} sessionRunning={sessionRunning}/>
         <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer}/>
+        <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
       </div>
     </div>
   );
