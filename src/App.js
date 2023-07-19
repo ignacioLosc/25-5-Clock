@@ -21,26 +21,11 @@ function App() {
   function parentSetSessionLength(length) {
     setSessionLength(length);
   }
-  function parentTimerMinutes(length) {
-    setTimerMinutes(length);
+  function parentTimerMinutes(minutes) {
+    setTimerMinutes(minutes);
   }
-  function incrementBreakLength(event) {
-    if (!timerRunning) {
-      if (breakLength === "60") {
-        setBreakLength("60");
-      } else {
-        setBreakLength((Number(breakLength) + 1).toString());
-      }
-    }
-  }
-  function decrementBreakLength(event) {
-    if (!timerRunning) {
-      if (breakLength === "1") {
-        setBreakLength("1");
-      } else {
-        setBreakLength((Number(breakLength) - 1).toString());
-      }
-    }
+  function parentSetBreakLength(length) {
+    setBreakLength(length);
   }
   async function startTimer() {
     if (!timerRunningReference.current) {
@@ -125,7 +110,7 @@ function App() {
   return (
     <div className="App">
       <div className='Website-title'>25 + 5 Clock
-        <BreakControls breakLength={breakLength} sessionLength={sessionLength} onIncrementBreak={incrementBreakLength} onDecrementBreak={decrementBreakLength} sessionLengthSetter={parentSetSessionLength} timerRunning={timerRunning} timerMinutesSetter={parentTimerMinutes}/>
+        <BreakControls breakLength={breakLength} sessionLength={sessionLength} breakLengthSetter={parentSetBreakLength} sessionLengthSetter={parentSetSessionLength} timerRunning={timerRunning} timerMinutesSetter={parentTimerMinutes}/>
         <Timer minutes={timerMinutes} seconds={timerSeconds} sessionRunning={sessionRunning}/>
         <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer}/>
         <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>

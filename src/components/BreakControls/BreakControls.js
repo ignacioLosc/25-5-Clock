@@ -1,6 +1,6 @@
 import '../../App.css';
 
-function BreakControls({breakLength, sessionLength, onIncrementBreak, onDecrementBreak, sessionLengthSetter, timerRunning, timerMinutesSetter}) {
+function BreakControls({breakLength, sessionLength, breakLengthSetter, sessionLengthSetter, timerRunning, timerMinutesSetter}) {
     function incrementSessionLength() {
         if (!timerRunning) {
           if (sessionLength === "60") {
@@ -21,14 +21,32 @@ function BreakControls({breakLength, sessionLength, onIncrementBreak, onDecremen
           }
         }
     }
+    function incrementBreakLength() {
+        if (!timerRunning) {
+          if (breakLength === "60") {
+            breakLengthSetter("60");
+          } else {
+            breakLengthSetter((Number(breakLength) + 1).toString());
+          }
+        }
+    }
+      function decrementBreakLength() {
+        if (!timerRunning) {
+          if (breakLength === "1") {
+            breakLengthSetter("1");
+          } else {
+            breakLengthSetter((Number(breakLength) - 1).toString());
+          }
+        }
+    }
     return (
         <div className='break-controls'>
             <div className="length-time-descriptor" id='break-label'>Break Length
-                <button className='break-decrement' id='break-decrement' onClick={onDecrementBreak}>
+                <button className='break-decrement' id='break-decrement' onClick={decrementBreakLength}>
                     <i className="fa fa-arrow-down" aria-hidden="true"></i>
                 </button>
                 <div id='break-length' className='length-time-counter'>{breakLength}</div>
-                <button className='break-increment' id='break-increment' onClick={onIncrementBreak}>
+                <button className='break-increment' id='break-increment' onClick={incrementBreakLength}>
                     <i className="fa fa-arrow-up" aria-hidden="true"></i>
                 </button>
             </div>
