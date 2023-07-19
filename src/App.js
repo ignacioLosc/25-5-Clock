@@ -18,25 +18,11 @@ function App() {
   minutesReference.current = timerMinutes;
   const timerRunningReference = useRef();
   timerRunningReference.current = timerRunning;
-  function incrementSessionLength(event) {
-    if (!timerRunning) {
-      if (sessionLength === "60") {
-        setSessionLength("60");
-      } else {
-        setSessionLength((Number(sessionLength) + 1).toString());
-        setTimerMinutes((Number(sessionLength) + 1));
-      }
-    }
+  function parentSetSessionLength(length) {
+    setSessionLength(length);
   }
-  function decrementSessionLength(event) {
-    if (!timerRunning) {
-      if (sessionLength === "1") {
-        setSessionLength("1");
-      } else {
-        setSessionLength((Number(sessionLength) - 1).toString());
-        setTimerMinutes((Number(sessionLength) - 1));
-      }
-    }
+  function parentTimerMinutes(length) {
+    setTimerMinutes(length);
   }
   function incrementBreakLength(event) {
     if (!timerRunning) {
@@ -139,7 +125,7 @@ function App() {
   return (
     <div className="App">
       <div className='Website-title'>25 + 5 Clock
-        <BreakControls breakLength={breakLength} sessionLength={sessionLength} onIncrementSession={incrementSessionLength} onDecrementSession={decrementSessionLength} onIncrementBreak={incrementBreakLength} onDecrementBreak={decrementBreakLength}/>
+        <BreakControls breakLength={breakLength} sessionLength={sessionLength} onIncrementBreak={incrementBreakLength} onDecrementBreak={decrementBreakLength} sessionLengthSetter={parentSetSessionLength} timerRunning={timerRunning} timerMinutesSetter={parentTimerMinutes}/>
         <Timer minutes={timerMinutes} seconds={timerSeconds} sessionRunning={sessionRunning}/>
         <TimerControls onTimerStart={startTimer} onTimerReset={resetTimer}/>
         <audio id="beep" src="https://raw.githubusercontent.com/freeCodeCamp/cdn/master/build/testable-projects-fcc/audio/BeepSound.wav"></audio>
