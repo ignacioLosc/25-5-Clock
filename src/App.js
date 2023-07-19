@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import './App.css';
 import BreakControls from './components/BreakControls/BreakControls.js'
 import Timer from './components/Timer/Timer.js'
@@ -11,6 +11,12 @@ function App() {
   const [timerMinutes, setTimerMinutes] = useState(25);
   const [timerSeconds, setTimerSeconds] = useState(0);
   const [timerRunning, setTimerRunning] = useState(false);
+  const secondsReference = useRef();
+  secondsReference.current = timerSeconds;
+  const minutesReference = useRef();
+  minutesReference.current = timerMinutes;
+  const timerRunningReference = useRef();
+  timerRunningReference.current = timerRunning;
   function modifySessionLength(event) {
     if (!timerRunning) {
       if (event.target.innerHTML === "Increment") {
@@ -48,8 +54,12 @@ function App() {
     }
   }
   async function startTimer() {
-    await sleep(1000);
-    setTimerRunning(true);
+    if (!timerRunning) {
+      await sleep(1000);
+      setTimerRunning(true);
+    } else {
+      setTimerRunning(false);
+    }
   }
   function resetTimer() {
     console.log("resetting timer");
@@ -62,27 +72,31 @@ function App() {
     setSessionLength("25");
     setBreakLength("5");
   }
+  function beginBreakCountdown() {
+    // sound alarm
+    // begin break countdown
+  }
   function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
   async function passTime() {
     //console.log("passing time");
     //console.log(timerRunning);
-    if (!(timerMinutes === 0 && timerSeconds === 0)) {
+    //console.log("timerSeconds: " + secondsReference.current);
+    if (!(minutesReference.current === 0 && secondsReference.current === 0)) {
       //console.log("passing time, time not over");
-      console.log("timerSeconds: " + timerSeconds);
-      if (timerSeconds !== 0 && timerRunning) {
-        console.log("Decreasing seconds to: " + (timerSeconds - 1).toString());
-        setTimerSeconds(timerSeconds - 1);
+      //console.log("timerSeconds: " + timerSeconds);
+      if (secondsReference.current !== 0 && timerRunningReference.current) {
+        //console.log("Decreasing seconds to: " + (timerSeconds - 1).toString());
+        setTimerSeconds(secondsReference.current - 1);
         await sleep(1000);
         passTime();
       } else {
-        if (timerMinutes !== 0 && timerRunning) {
-          setTimerMinutes(timerMinutes - 1);
-          console.log("Setting seconds to 59");
-          setTimerSeconds(59);
+        if (minutesReference.current !== 0 && timerRunningReference.current) {
+          setTimerMinutes(minutesReference.current - 1);
+          //console.log("Setting seconds to 59");
+          setTimerSeconds(secondsReference.current + 59);
           await sleep(1000);
-          setTimerSeconds(59);
           passTime();
         } else {
           setTimerRunning(false);
@@ -90,6 +104,8 @@ function App() {
       }
     } else {
       setTimerRunning(false);
+      await sleep(1000);
+      beginBreakCountdown();
     }
   }
   useEffect(() => {
