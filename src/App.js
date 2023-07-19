@@ -103,20 +103,21 @@ function App() {
     //console.log("passing time");
     //console.log(timerRunning);
     //console.log("timerSeconds: " + secondsReference.current);
+    await sleep(1000);
     if (!(minutesReference.current === 0 && secondsReference.current === 0)) {
       //console.log("passing time, time not over");
       //console.log("timerSeconds: " + timerSeconds);
       if (secondsReference.current !== 0 && timerRunningReference.current) {
         //console.log("Decreasing seconds to: " + (timerSeconds - 1).toString());
         setTimerSeconds(secondsReference.current - 1);
-        await sleep(1000);
+        //await sleep(1000);
         passTime();
       } else {
         if (minutesReference.current !== 0 && timerRunningReference.current) {
           setTimerMinutes(minutesReference.current - 1);
           //console.log("Setting seconds to 59");
           setTimerSeconds(secondsReference.current + 59);
-          await sleep(1000);
+          //await sleep(1000);
           passTime();
         } else {
           setTimerRunning(false);
