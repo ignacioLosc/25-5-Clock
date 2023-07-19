@@ -56,7 +56,7 @@ function App() {
   }
   async function startTimer() {
     if (!timerRunningReference.current) {
-      await sleep(1000);
+      //await sleep(1000);
       setTimerRunning(true);
     } else {
       setTimerRunning(false);
@@ -85,14 +85,14 @@ function App() {
       // sound alarm
       // begin break countdown
       setSessionRunning(false);
-      setTimerMinutes(breakLength);
+      setTimerMinutes(Number(breakLength));
       startTimer();
       
     } else {
       //console.log("break finished, switching to session");
       //console.log("value of timerRunning: " + timerRunning);
       setSessionRunning(true);
-      setTimerMinutes(sessionLength);
+      setTimerMinutes(Number(sessionLength));
       startTimer();
     }
   }
@@ -115,7 +115,7 @@ function App() {
         if (minutesReference.current !== 0 && timerRunningReference.current) {
           setTimerMinutes(minutesReference.current - 1);
           //console.log("Setting seconds to 59");
-          setTimerSeconds(secondsReference.current + 3);
+          setTimerSeconds(secondsReference.current + 59);
           await sleep(1000);
           passTime();
         } else {
